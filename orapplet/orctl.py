@@ -131,3 +131,7 @@ class OrCtl(object):
         self._notify.set_timeout(timeout)
         self._notify.set_urgency(urgency)
         self._notify.show()
+
+    def close_control_connection(self):
+        """Close control connection"""
+        self._control.close()

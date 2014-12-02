@@ -144,6 +144,9 @@ class PopupMenu(object):
         item = Gtk.MenuItem('About')
         item.connect('activate', self._on_about)
         self._menu.append(item)
+        item = Gtk.MenuItem('Exit')
+        item.connect('activate', self._on_exit)
+        self._menu.append(item)
         self._menu.show_all()
 
     def popup(self, widget, button, time):
@@ -166,6 +169,11 @@ class PopupMenu(object):
         about_dialog.set_artists(['Robin Weatherall http://www.robinweatherall.eu'])
         about_dialog.run()
         about_dialog.destroy()
+
+    def _on_exit(self, *a):
+        """Close control connection and terminate the applet"""
+        self._ctl.close_control_connection()
+        Gtk.main_quit()
 
 class ActivateMenu(object):
     _ctl = None
