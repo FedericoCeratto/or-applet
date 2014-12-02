@@ -135,3 +135,17 @@ class OrCtl(object):
     def close_control_connection(self):
         """Close control connection"""
         self._control.close()
+
+    def start_connectivity_test(self):
+        """Start connectivity test by creating a new circuit"""
+        circuit_id = self._control.new_circuit()
+        GLib.timeout_add_seconds(1, self._connectivity_test, circuit_id)
+
+    def _connectivity_test(self, circuit_id):
+        """Test if a newly created circuit is ready and update the status
+        icon"""
+        circ = self._control.get_circuit(circuit_id)
+        if circ.status == 'BUILT':
+            self._status_icon.set_ready_icon()
+        else:
+            self._status_icon.set_not_ready_icon()

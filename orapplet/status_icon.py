@@ -134,6 +134,9 @@ class PopupMenu(object):
         self._ctl = icon._ctl
         self._status_icon = icon
         self._menu = Gtk.Menu()
+        item = Gtk.MenuItem('Test')
+        item.connect('activate', self._on_start_test)
+        self._menu.append(item)
         item = Gtk.MenuItem('Stem Prompt')
         item.connect('activate', self._on_prompt)
         self._menu.append(item)
@@ -174,6 +177,10 @@ class PopupMenu(object):
         """Close control connection and terminate the applet"""
         self._ctl.close_control_connection()
         Gtk.main_quit()
+
+    def _on_start_test(self, *a):
+        """Start connectivity test"""
+        self._ctl.start_connectivity_test()
 
 class ActivateMenu(object):
     _ctl = None
