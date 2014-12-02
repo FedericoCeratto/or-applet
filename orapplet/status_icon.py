@@ -261,7 +261,7 @@ class OrStatusIcon(object):
         self._menu_popup = PopupMenu(self)
 
         self._icon = Gtk.StatusIcon()
-        self._icon.set_from_file(get_leek_icon())
+        self._icon.set_from_file(get_leek_icon(ready=False))
         self._icon.connect('activate', self._on_activate)
         self._icon.connect('popup-menu', self._menu_popup.popup)
         self._icon.set_visible(True)
@@ -277,3 +277,8 @@ class OrStatusIcon(object):
         self._activate_menu = ActivateMenu(self)
         self._activate_menu.popup(self._activate_menu, 1, Gtk.get_current_event_time())
 
+    def set_ready_icon(self):
+        self._icon.set_from_file(get_leek_icon())
+
+    def set_not_ready_icon(self):
+        self._icon.set_from_file(get_leek_icon(ready=False))

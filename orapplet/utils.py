@@ -18,9 +18,13 @@
 import os
 
 LEEK_ICON = 'assets/Leek-icon.png'
+LEEK_NOT_READY_ICON = 'assets/Leek-not-ready-icon.png'
 
-def get_leek_icon():
-    return get_asset_path(LEEK_ICON)
+def get_leek_icon(ready=True):
+    if ready:
+        return get_asset_path(LEEK_ICON)
+    else:
+        return get_asset_path(LEEK_NOT_READY_ICON)
 
 def get_asset_path(relative):
     prefix = os.path.dirname(os.path.abspath(__file__))

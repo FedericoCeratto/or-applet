@@ -85,6 +85,7 @@ class OrCtl(object):
     def _on_status(self, controller, state, timestamp):
         if state == State.CLOSED:
             self.notify('Stem: Closed', urgency=Notify.Urgency.CRITICAL)
+            self._status_icon.set_not_ready_icon()
             self._control.close()
             self._control = None
             self.start_loop()
@@ -104,7 +105,15 @@ class OrCtl(object):
         self.notify('Tor - Signal', event.signal)
 
     def _on_notice_event(self, event):
-        self.notify('Tor [NOTICE]', event.message)
+        msg = event.message
+        self.notify('Tor [NOTICE]', msg)
+        if msg.startswith('Bootstrapped 100%') or \
+            msg.startswith('Tor now sees network activity.'):
+            self._status_icon.set_ready_icon()
+
+        elif msg.startswith('Tried for') and \
+            msg.endswith('(waiting for circuit)'):
+            self._status_icon.set_not_ready_icon()
 
     def _on_warn_event(self, event):
         self.notify('Tor [WARN]', event.message)
